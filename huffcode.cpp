@@ -20,7 +20,6 @@ using std::string;
 using std::unordered_map;
 #include <set>
 using std::multiset;
-#include <iostream>
 #include <utility>
 
 void HuffCode::setWeights(const unordered_map<char, int> &theweights)
@@ -32,20 +31,13 @@ void HuffCode::setWeights(const unordered_map<char, int> &theweights)
         {
             trees.insert(std::make_shared<node>(true, x.second, x.first));
         }
-        // for (auto elem : trees)
-        // {
-        //     std::cout << elem->data << ": " << elem->weight << std::endl;
-        // }
         while (trees.size() > 1)
         {
             auto left = *trees.begin();
             trees.erase(trees.begin());
             auto right = *trees.begin();
             trees.erase(trees.begin());
-            // std::cout << left->weight + right->weight << std::endl;
-            // std::cout << "tree size: "<<trees.size() << std::endl;
             trees.insert(std::make_shared<node>(false, (left->weight + right->weight), left, right));
-            // std::cout << "tree size #2: "<<trees.size() << std::endl;
         }
         auto potential_root = *trees.begin();
         if (potential_root->isLeaf)
@@ -56,7 +48,6 @@ void HuffCode::setWeights(const unordered_map<char, int> &theweights)
         {
             root = *trees.begin();
         }
-
         setCodewords(root, "");
     }
 }
@@ -65,7 +56,6 @@ void HuffCode::setCodewords(std::shared_ptr<node> thetree, std::string code)
 {
     if (thetree->isLeaf)
     {
-        // std::cout << thetree->data << ":  " << code << std::endl;
         codewords.insert(std::make_pair(thetree->data, code));
         return;
     }
@@ -91,11 +81,9 @@ string HuffCode::encode(const string &text) const
         if (codewords.find(c) != codewords.end())
         {
             out += codewords.at(c);
-            // std::cout << "here" << c << std::endl;
         }
-        // std::cout << codewords.size() << c << std::endl;
     }
-    return out; // DUMMY RETURN
+    return out;
 }
 
 string HuffCode::decode(const string &codestr) const
@@ -104,7 +92,6 @@ string HuffCode::decode(const string &codestr) const
     auto currentNode = root;
     for (char const &c : codestr)
     {
-
         if (c == '0')
         {
             currentNode = currentNode->left;
@@ -113,7 +100,7 @@ string HuffCode::decode(const string &codestr) const
         {
             currentNode = currentNode->right;
         }
-                if (currentNode->isLeaf)
+        if (currentNode->isLeaf)
         {
             out.push_back(currentNode->data);
             currentNode = root;

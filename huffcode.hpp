@@ -25,19 +25,19 @@
 struct node
 {
     node() {}
-    node(bool l, int w, char d)
+    node(bool l, int w, char d) //leaf
     {
         isLeaf = l;
         weight = w;
         data = d;
     }
-    node(bool l, int w, std::shared_ptr<node> le)
+    node(bool l, int w, std::shared_ptr<node> le) //single char set
     {
         isLeaf = l;
         weight = w;
         left = le;
     }
-    node(bool l, int w, std::shared_ptr<node> le, std::shared_ptr<node> r)
+    node(bool l, int w, std::shared_ptr<node> le, std::shared_ptr<node> r) //standard node
     {
         isLeaf = l;
         weight = w;
