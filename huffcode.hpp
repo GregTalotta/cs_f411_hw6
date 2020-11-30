@@ -24,15 +24,23 @@
 
 struct node
 {
-    node(){}
-    node(bool l, int w, char d){
+    node() {}
+    node(bool l, int w, char d)
+    {
         isLeaf = l;
-        weight= w;
+        weight = w;
         data = d;
     }
-    node(bool l, int w, std::shared_ptr<node> le, std::shared_ptr<node> r){
+    node(bool l, int w, std::shared_ptr<node> le)
+    {
         isLeaf = l;
-        weight= w;
+        weight = w;
+        left = le;
+    }
+    node(bool l, int w, std::shared_ptr<node> le, std::shared_ptr<node> r)
+    {
+        isLeaf = l;
+        weight = w;
         left = le;
         right = r;
     }
@@ -51,6 +59,13 @@ struct node
     }
 };
 
+struct set_compare
+{
+    bool operator()(const std::shared_ptr<node> &n1, const std::shared_ptr<node> &n2) const
+    {
+        return n1->weight < n2->weight;
+    }
+};
 // Class HuffCode
 // Encoding & decoding using a Huffman code
 class HuffCode
@@ -71,6 +86,8 @@ public:
     // ***** HuffCode: data members *****
 private:
     std::shared_ptr<node> root;
+    void setCodewords(std::shared_ptr<node> thetree, std::string code);
+    std::unordered_map<char, std::string> codewords;
 }; // End class HuffCode
 
 #endif //#ifndef FILE_HUFFCODE_H_INCLUDED
